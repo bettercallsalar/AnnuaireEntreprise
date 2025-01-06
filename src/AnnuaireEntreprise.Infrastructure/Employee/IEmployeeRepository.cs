@@ -8,11 +8,11 @@ namespace AnnuaireEntreprise.Infrastructure
     {
         Task<List<EmployeeDTO>> GetAllEmployees();
         Task<EmployeeDTO> GetEmployeeById(int id);
-        Task<bool> AddEmployee(EmployeeDTO employee);
+        Task<EmployeeDTO> AddEmployee(EmployeeDTO employee);
         Task<bool> UpdateEmployee(EmployeeDTO employee);
-        Task<bool> DeleteEmployee(EmployeeDTO employee);
+        Task<bool> DeleteEmployee(int id);
 
         // methods chercher par nom, prenom, email, telephone, site, service
-        Task<List<EmployeeDTO>> SearchEmployeeByArg(string? nom, string? prenom, string? email, string? telephone, string? site, string? service);
+        Task<List<EmployeeDTO>> SearchEmployeeByArg(string? nom, string? prenom, string? email, string? telephone, int? siteId, int? serviceId);
     }
 }

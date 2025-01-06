@@ -20,7 +20,7 @@ namespace AnnuaireEntreprise.Core
             return await _siteRepository.GetSiteById(id);
         }
 
-        public async Task<bool> AddSite(SiteDTO site)
+        public async Task<SiteDTO> AddSite(SiteDTO site)
         {
             return await _siteRepository.AddSite(site);
         }
@@ -30,9 +30,9 @@ namespace AnnuaireEntreprise.Core
             return await _siteRepository.UpdateSite(site);
         }
 
-        public async Task<bool> DeleteSite(SiteDTO site)
+        public async Task<bool> DeleteSite(int id)
         {
-            return await _siteRepository.DeleteSite(site);
+            return await _siteRepository.DeleteSite(id);
         }
     }
 }

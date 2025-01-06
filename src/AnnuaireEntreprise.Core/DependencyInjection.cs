@@ -2,10 +2,8 @@
 // Created: 06/01/2024
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using AnnuaireEntreprise.Core;
 
-
-namespace STIVE.core
+namespace AnnuaireEntreprise.Core
 {
     public static class DependencyInjection
     {

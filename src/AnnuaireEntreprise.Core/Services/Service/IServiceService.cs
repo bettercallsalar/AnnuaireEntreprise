@@ -7,8 +7,8 @@ namespace AnnuaireEntreprise.Core
     {
         Task<List<ServiceDTO>> GetAllServices();
         Task<ServiceDTO> GetServiceById(int id);
-        Task<bool> AddService(ServiceDTO service);
+        Task<ServiceDTO> AddService(ServiceDTO service);
         Task<bool> ModifyService(ServiceDTO service);
-        Task<bool> RemoveService(ServiceDTO service);
+        Task<bool> RemoveService(int id);
     }
 }

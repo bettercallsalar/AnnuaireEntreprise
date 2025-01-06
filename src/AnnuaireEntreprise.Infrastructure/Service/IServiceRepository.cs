@@ -8,8 +8,8 @@ namespace AnnuaireEntreprise.Infrastructure
     {
         Task<List<ServiceDTO>> FetchAllServices();
         Task<ServiceDTO> FetchServiceById(int id);
-        Task<bool> InsertService(ServiceDTO service);
+        Task<ServiceDTO> InsertService(ServiceDTO service);
         Task<bool> UpdateService(ServiceDTO service);
-        Task<bool> DeleteService(ServiceDTO service);
+        Task<bool> DeleteService(int id);
     }
 }

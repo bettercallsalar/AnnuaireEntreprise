@@ -8,8 +8,8 @@ namespace AnnuaireEntreprise.Core
     {
         Task<List<SiteDTO>> GetAllSites();
         Task<SiteDTO> GetSiteById(int id);
-        Task<bool> AddSite(SiteDTO site);
+        Task<SiteDTO> AddSite(SiteDTO site);
         Task<bool> UpdateSite(SiteDTO site);
-        Task<bool> DeleteSite(SiteDTO site);
+        Task<bool> DeleteSite(int id);
     }
 }

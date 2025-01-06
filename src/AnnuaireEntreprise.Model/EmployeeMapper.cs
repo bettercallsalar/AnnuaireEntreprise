@@ -4,7 +4,7 @@
 // {
 //     public static class EmployeeMapper
 //     {
-//         public static EmployeeDTO ToDTO(Employee employee)
+//         public static EmployeeDTO ToDTO(EmployeeDTO employee)
 //         {
 //             return new EmployeeDTO
 //             {
@@ -14,14 +14,14 @@
 //                 Email = employee.Email,
 //                 TelephoneFixe = employee.TelephoneFixe,
 //                 TelephonePortable = employee.TelephonePortable,
-//                 Site = employee.Site?.Ville, // Utilisation du nom du site
-//                 Service = employee.Service?.Nom // Utilisation du nom du service
+//                 Site = employee.Site,
+//                 Service = employee.Service
 //             };
 //         }
 
-//         public static Employee ToEntity(EmployeeDTO dto, Site site, Service service)
+//         public static EmployeeDTO ToEntity(EmployeeDTO dto, SiteDTO site, ServiceDTO service)
 //         {
-//             return new Employee
+//             return new EmployeeDTO
 //             {
 //                 Id = dto.Id,
 //                 Nom = dto.Nom,
@@ -30,7 +30,9 @@
 //                 TelephoneFixe = dto.TelephoneFixe,
 //                 TelephonePortable = dto.TelephonePortable,
 //                 SiteId = site.Id,
-//                 ServiceId = service.Id
+//                 ServiceId = service.Id,
+//                 Site = site,
+//                 Service = service
 //             };
 //         }
 //     }

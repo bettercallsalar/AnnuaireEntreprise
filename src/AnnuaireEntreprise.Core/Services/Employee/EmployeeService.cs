@@ -24,7 +24,7 @@ namespace AnnuaireEntreprise.Core
             return await _employeeRepository.GetEmployeeById(id);
         }
 
-        public async Task<bool> AddEmployee(EmployeeDTO employee)
+        public async Task<EmployeeDTO> AddEmployee(EmployeeDTO employee)
         {
             return await _employeeRepository.AddEmployee(employee);
         }
@@ -34,9 +34,9 @@ namespace AnnuaireEntreprise.Core
             return await _employeeRepository.UpdateEmployee(employee);
         }
 
-        public async Task<bool> DeleteEmployee(EmployeeDTO employee)
+        public async Task<bool> DeleteEmployee(int id)
         {
-            return await _employeeRepository.DeleteEmployee(employee);
+            return await _employeeRepository.DeleteEmployee(id);
         }
     }
 }

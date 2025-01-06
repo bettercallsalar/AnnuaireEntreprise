@@ -56,14 +56,15 @@ namespace AnnuaireEntreprise.Infrastructure
             };
         }
 
-        public async Task<bool> AddSite(SiteDTO site)
+        public async Task<SiteDTO> AddSite(SiteDTO site)
         {
             using var connection = _connector.GetConnection();
             connection.Open();
             using var command = connection.CreateCommand();
-            command.CommandText = "INSERT INTO Sites (Ville) VALUES (@ville)";
+            command.CommandText = "INSERT INTO Sites (Ville) VALUES (@ville); SELECT LAST_INSERT_ID();";
             command.Parameters.Add(new MySqlParameter("@ville", site.Ville));
-            return await command.ExecuteNonQueryAsync() > 0;
+            site.Id = Convert.ToInt32(await command.ExecuteScalarAsync());
+            return site;
         }
 
         public async Task<bool> UpdateSite(SiteDTO site)
@@ -77,13 +78,13 @@ namespace AnnuaireEntreprise.Infrastructure
             return await command.ExecuteNonQueryAsync() > 0;
         }
 
-        public async Task<bool> DeleteSite(SiteDTO site)
+        public async Task<bool> DeleteSite(int id)
         {
             using var connection = _connector.GetConnection();
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = "DELETE FROM Sites WHERE Id = @id";
-            command.Parameters.Add(new MySqlParameter("@id", site.Id));
+            command.Parameters.Add(new MySqlParameter("@id", id));
             return await command.ExecuteNonQueryAsync() > 0;
         }
     }

@@ -8,8 +8,8 @@ namespace AnnuaireEntreprise.Core
     {
         Task<List<EmployeeDTO>> GetAllEmployees();
         Task<EmployeeDTO> GetEmployeeById(int id);
-        Task<bool> AddEmployee(EmployeeDTO employee);
+        Task<EmployeeDTO> AddEmployee(EmployeeDTO employee);
         Task<bool> UpdateEmployee(EmployeeDTO employee);
-        Task<bool> DeleteEmployee(EmployeeDTO employee);
+        Task<bool> DeleteEmployee(int id);
     }
 }

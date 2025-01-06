@@ -6,5 +6,5 @@ obj/
 .vs/
 *.log
 *.swp
-appsettings.json
-appsettings.*.json
+# appsettings.json
+# appsettings.*.json

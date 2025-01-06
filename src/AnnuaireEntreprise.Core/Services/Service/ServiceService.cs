@@ -19,7 +19,7 @@ namespace AnnuaireEntreprise.Core
             return await _serviceRepository.FetchServiceById(id);
         }
 
-        public async Task<bool> AddService(ServiceDTO service)
+        public async Task<ServiceDTO> AddService(ServiceDTO service)
         {
             return await _serviceRepository.InsertService(service);
         }
@@ -29,9 +29,9 @@ namespace AnnuaireEntreprise.Core
             return await _serviceRepository.UpdateService(service);
         }
 
-        public async Task<bool> RemoveService(ServiceDTO service)
+        public async Task<bool> RemoveService(int id)
         {
-            return await _serviceRepository.DeleteService(service);
+            return await _serviceRepository.DeleteService(id);
         }
     }
 }

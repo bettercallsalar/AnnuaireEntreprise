@@ -57,14 +57,16 @@ namespace AnnuaireEntreprise.Infrastructure
             };
         }
 
-        public async Task<bool> InsertService(ServiceDTO service)
+        public async Task<ServiceDTO> InsertService(ServiceDTO service)
         {
             using var connection = _connector.GetConnection();
             connection.Open();
             using var command = connection.CreateCommand();
-            command.CommandText = "INSERT INTO Services (Nom) VALUES (@nom)";
+            command.CommandText = "INSERT INTO Services (Nom) VALUES (@nom); SELECT LAST_INSERT_ID();";
             command.Parameters.Add(new MySqlParameter("@nom", service.Nom));
-            return await command.ExecuteNonQueryAsync() > 0;
+            var id = await command.ExecuteScalarAsync();
+            service.Id = Convert.ToInt32(id);
+            return service;
         }
 
         public async Task<bool> UpdateService(ServiceDTO service)
@@ -78,13 +80,13 @@ namespace AnnuaireEntreprise.Infrastructure
             return await command.ExecuteNonQueryAsync() > 0;
         }
 
-        public async Task<bool> DeleteService(ServiceDTO service)
+        public async Task<bool> DeleteService(int id)
         {
             using var connection = _connector.GetConnection();
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = "DELETE FROM Services WHERE Id = @id";
-            command.Parameters.Add(new MySqlParameter("@id", service.Id));
+            command.Parameters.Add(new MySqlParameter("@id", id));
             return await command.ExecuteNonQueryAsync() > 0;
         }
     }

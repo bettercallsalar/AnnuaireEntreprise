@@ -1,5 +1,3 @@
-// Author: Salar
-// Created: 06/01/2024
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 
@@ -16,8 +14,6 @@ public class MySqlConnector
 
     public MySqlConnection GetConnection()
     {
-        if (string.IsNullOrEmpty(_connectionString))
-            throw new InvalidOperationException("The connection string is not configured properly.");
         return new MySqlConnection(_connectionString);
     }
 }
