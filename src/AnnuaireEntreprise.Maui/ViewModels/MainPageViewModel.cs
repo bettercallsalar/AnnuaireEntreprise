@@ -44,7 +44,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         }
 
         private int _titleClickCount = 0;
-        private const int SecretKeyTapThreshold = 11;
+        private const int SecretKeyTapThreshold = 1;
         private const string AdminPassword = "Cesi";
         private bool _isAdmin;
         public bool IsAdmin

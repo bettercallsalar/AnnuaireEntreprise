@@ -1,128 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="AnnuaireEntreprise.Maui.Views.ServicePopup"
-               Size="400,600">
-    <ScrollView>
-        <VerticalStackLayout Padding="20"
-                             Spacing="20"
-                             BackgroundColor="#FFFFFF">
-            <!-- Title -->
-            <Label Text="Manage Services"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   TextColor="#333"
-                   HorizontalOptions="Center"/>
+               Size="500,700">
+       <ScrollView>
+              <VerticalStackLayout Padding="30"
+                                   Spacing="30"
+                                   BackgroundColor="#1E1E1E">
+                     <!-- Title -->
+                     <Label Text="Manage Services"
+                            FontSize="28"
+                            FontAttributes="Bold"
+                            TextColor="#E0E0E0"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,20"/>
 
-            <!-- Add New Service -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Add New Service"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="#007AFF"/>
-                <Entry Placeholder="Enter Service"
-                       Text="{Binding NewServiceName}"
-                       FontSize="16"
-                       BackgroundColor="#F8F8F8"
-                       Margin="0,5"/>
-                <Button Text="Add Service"
-                        Command="{Binding AddServiceCommand}"
-                        BackgroundColor="#28A745"
-                        TextColor="White"
-                        WidthRequest="150"
-                        CornerRadius="10"
-                        HorizontalOptions="Start"/>
-            </VerticalStackLayout>
-
-            <!-- Separator -->
-            <BoxView HeightRequest="1"
-                     BackgroundColor="#E0E0E0"
-                     Margin="0,20"/>
-
-            <!-- Modify Service -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Modify Existing Service"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="#007AFF"/>
-
-                <!-- Service Picker -->
-                <Picker Title="Select Service"
-                        ItemsSource="{Binding Services}"
-                        SelectedItem="{Binding SelectedServiceForModification}"
-                        ItemDisplayBinding="{Binding Nom}"
-                        FontSize="16"
-                        BackgroundColor="#F8F8F8"
-                        Margin="0,5"/>
-
-                <!-- Modify Service Name -->
-                <Entry Placeholder="Enter New Service Name"
-                       Text="{Binding ModifiedServiceName}"
-                       FontSize="16"
-                       BackgroundColor="#F8F8F8"
-                       Margin="0,5"/>
-
-                <Button Text="Modify Service"
-                        Command="{Binding ModifyServiceCommand}"
-                        BackgroundColor="#007AFF"
-                        TextColor="White"
-                        WidthRequest="150"
-                        CornerRadius="10"
-                        HorizontalOptions="Start"/>
-            </VerticalStackLayout>
-
-            <!-- Separator -->
-            <BoxView HeightRequest="1"
-                     BackgroundColor="#E0E0E0"
-                     Margin="0,20"/>
-
-            <!-- Service List -->
-            <Label Text="Existing Services"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#007AFF"
-                   Margin="0,5"/>
-
-            <CollectionView ItemsSource="{Binding Services}"
-                            SelectionMode="None"
-                            Margin="0,10,0,20">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Padding="10"
-                               Margin="0,5"
-                               BackgroundColor="#F9F9F9"
-                               CornerRadius="10"
-                               BorderColor="#E0E0E0"
-                               HasShadow="True">
-                            <HorizontalStackLayout Spacing="10">
-                                <Label Text="{Binding Nom}"
-                                       FontSize="16"
-                                       VerticalTextAlignment="Center"
-                                       TextColor="#333"
-                                       FontAttributes="Bold"/>
-                                <Button Text="Delete"
-                                        Command="{Binding BindingContext.DeleteServiceCommand, Source={RelativeSource AncestorType={x:Type toolkit:Popup}}}"
-                                        CommandParameter="{Binding Id}"
-                                        BackgroundColor="#FF0000"
-                                        TextColor="White"
-                                        WidthRequest="80"
-                                        HeightRequest="40"
-                                        CornerRadius="10"/>
+                     <!-- Add New Service -->
+                     <VerticalStackLayout Spacing="15">
+                            <Label Text="Add New Service"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#4CAF50"/>
+                            <HorizontalStackLayout>
+                                   <Entry Placeholder="Enter Service"
+                                          Text="{Binding NewServiceName}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#2A2A2A"
+                                          HeightRequest="50"
+                                          WidthRequest="300"
+                                          Margin="0,0,10,0"/>
+                                   <Button Text="Add"
+                                           Command="{Binding AddServiceCommand}"
+                                           BackgroundColor="#4CAF50"
+                                           TextColor="#FFFFFF"
+                                           CornerRadius="25"
+                                           HeightRequest="50"
+                                           FontSize="16"/>
                             </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                     </VerticalStackLayout>
 
-            <!-- Close Button -->
-            <Button Text="Close"
-                    Command="{Binding ClosePopupCommand}"
-                    BackgroundColor="#FF5722"
-                    TextColor="White"
-                    WidthRequest="120"
-                    HeightRequest="50"
-                    CornerRadius="10"
-                    HorizontalOptions="Center"/>
-        </VerticalStackLayout>
-    </ScrollView>
+                     <!-- Separator -->
+                     <BoxView HeightRequest="1"
+                              BackgroundColor="#424242"/>
+
+                     <!-- Modify Existing Service -->
+                     <VerticalStackLayout Spacing="15">
+                            <Label Text="Modify Existing Service"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#1E88E5"/>
+
+                            <Picker Title="Select Service"
+                                    ItemsSource="{Binding Services}"
+                                    SelectedItem="{Binding SelectedServiceForModification}"
+                                    ItemDisplayBinding="{Binding Nom}"
+                                    FontSize="16"
+                                    TextColor="#E0E0E0"
+                                    BackgroundColor="#2A2A2A"/>
+
+                            <HorizontalStackLayout>
+                                   <Entry Placeholder="Enter New Service Name"
+                                          Text="{Binding ModifiedServiceName}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#2A2A2A"
+                                          HeightRequest="50"
+                                          WidthRequest="300"
+                                          Margin="0,0,10,0"/>
+                                   <Button Text="Modify"
+                                           Command="{Binding ModifyServiceCommand}"
+                                           BackgroundColor="#1E88E5"
+                                           TextColor="#FFFFFF"
+                                           CornerRadius="25"
+                                           HeightRequest="50"
+                                           FontSize="16"/>
+                            </HorizontalStackLayout>
+                     </VerticalStackLayout>
+
+                     <!-- Separator -->
+                     <BoxView HeightRequest="1"
+                              BackgroundColor="#424242"/>
+
+                     <!-- Service List -->
+                     <Label Text="Existing Services"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            TextColor="#E0E0E0"
+                            Margin="0,0,0,10"/>
+                     <CollectionView ItemsSource="{Binding Services}"
+                                     SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                   <DataTemplate>
+                                          <Frame Padding="10"
+                                                 BackgroundColor="#2A2A2A"
+                                                 CornerRadius="10"
+                                                 Margin="0,5"
+                                                 BorderColor="#424242">
+                                                 <Grid ColumnDefinitions="*,auto"
+                                                       VerticalOptions="Center">
+                                                        <Label Text="{Binding Nom}"
+                                                               FontSize="16"
+                                                               TextColor="#FFFFFF"
+                                                               VerticalOptions="Center"/>
+                                                        <Button Text="Delete"
+                                                                Command="{Binding BindingContext.DeleteServiceCommand, Source={RelativeSource AncestorType={x:Type toolkit:Popup}}}"
+                                                                CommandParameter="{Binding Id}"
+                                                                BackgroundColor="#F44336"
+                                                                TextColor="#FFFFFF"
+                                                                CornerRadius="15"
+                                                                WidthRequest="80"
+                                                                HeightRequest="40"
+                                                                Grid.Column="1"/>
+                                                 </Grid>
+                                          </Frame>
+                                   </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                     </CollectionView>
+
+                     <!-- Close Button -->
+                     <Button Text="Close"
+                             Command="{Binding ClosePopupCommand}"
+                             BackgroundColor="#FF5722"
+                             TextColor="#FFFFFF"
+                             WidthRequest="150"
+                             HeightRequest="50"
+                             CornerRadius="25"
+                             FontSize="16"
+                             HorizontalOptions="Center"/>
+              </VerticalStackLayout>
+       </ScrollView>
 </toolkit:Popup>

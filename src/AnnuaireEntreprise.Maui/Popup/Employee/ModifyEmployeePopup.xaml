@@ -3,74 +3,106 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="AnnuaireEntreprise.Maui.Views.ModifyEmployeePopup"
-               Size="400,500">
+               Size="600,650">
        <ScrollView>
-              <VerticalStackLayout Padding="20"
-                                   Spacing="20"
+              <VerticalStackLayout Padding="30"
+                                   Spacing="30"
                                    BackgroundColor="#1E1E1E">
                      <!-- Title -->
                      <Label Text="Modify Employee"
-                            FontSize="26"
+                            FontSize="28"
                             FontAttributes="Bold"
                             TextColor="#E0E0E0"
                             HorizontalOptions="Center"
-                            Margin="0,10,0,20"/>
+                            Margin="0,0,0,20"/>
 
                      <!-- Input Fields -->
-                     <VerticalStackLayout Spacing="15">
-                            <Entry Placeholder="First Name"
-                                   Text="{Binding SelectedEmployeeForModification.Nom}"
-                                   FontSize="16"
-                                   TextColor="#E0E0E0"
-                                   PlaceholderColor="#757575"
-                                   BackgroundColor="#2A2A2A"
-                                   Margin="0,5"
-                                   HeightRequest="50"/>
-                            <Entry Placeholder="Last Name"
+                     <Grid ColumnDefinitions="*,*"
+                           RowSpacing="15"
+                           ColumnSpacing="15">
+                            <!-- First Name -->
+                            <Entry Grid.Column="0"
+                                   Placeholder="First Name"
                                    Text="{Binding SelectedEmployeeForModification.Prenom}"
                                    FontSize="16"
                                    TextColor="#E0E0E0"
                                    PlaceholderColor="#757575"
                                    BackgroundColor="#2A2A2A"
-                                   Margin="0,5"
+                                   Margin="0,0"
                                    HeightRequest="50"/>
-                            <Entry Placeholder="Email"
-                                   Text="{Binding SelectedEmployeeForModification.Email}"
+                            <!-- Last Name -->
+                            <Entry Grid.Column="1"
+                                   Placeholder="Last Name"
+                                   Text="{Binding SelectedEmployeeForModification.Nom}"
                                    FontSize="16"
                                    TextColor="#E0E0E0"
                                    PlaceholderColor="#757575"
                                    BackgroundColor="#2A2A2A"
-                                   Keyboard="Email"
-                                   Margin="0,5"
+                                   Margin="0,0"
                                    HeightRequest="50"/>
-                            <Entry Placeholder="Phone Number"
+                     </Grid>
+
+                     <!-- Email -->
+                     <Entry Placeholder="Email"
+                            Text="{Binding SelectedEmployeeForModification.Email}"
+                            FontSize="16"
+                            TextColor="#E0E0E0"
+                            PlaceholderColor="#757575"
+                            BackgroundColor="#2A2A2A"
+                            Keyboard="Email"
+                            HeightRequest="50"/>
+
+                     <!-- Phone Numbers -->
+                     <Grid ColumnDefinitions="*,*"
+                           RowSpacing="15"
+                           ColumnSpacing="15">
+                            <!-- Phone Number -->
+                            <Entry Grid.Column="0"
+                                   Placeholder="Phone Number"
                                    Text="{Binding SelectedEmployeeForModification.TelephonePortable}"
                                    FontSize="16"
                                    TextColor="#E0E0E0"
                                    PlaceholderColor="#757575"
                                    BackgroundColor="#2A2A2A"
                                    Keyboard="Telephone"
-                                   Margin="0,5"
+                                   Margin="0,0"
                                    HeightRequest="50"/>
-                            <Picker Title="Site"
+                            <!-- Telephone Fix -->
+                            <Entry Grid.Column="1"
+                                   Placeholder="Telephone Fix"
+                                   Text="{Binding SelectedEmployeeForModification.TelephoneFixe}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   Keyboard="Telephone"
+                                   Margin="0,0"
+                                   HeightRequest="50"/>
+                     </Grid>
+
+                     <!-- Pickers -->
+                     <Grid ColumnDefinitions="*,*"
+                           RowSpacing="15"
+                           ColumnSpacing="15">
+                            <!-- Site Picker -->
+                            <Picker Grid.Column="0"
+                                    Title="Select Site"
                                     ItemsSource="{Binding Sites}"
                                     SelectedItem="{Binding SelectedSite}"
                                     ItemDisplayBinding="{Binding Ville}"
                                     TextColor="#E0E0E0"
                                     BackgroundColor="#2A2A2A"
-                                    FontSize="16"
-                                    Margin="0,5"
-                                    HeightRequest="50"/>
-                            <Picker Title="Service"
+                                    FontSize="16"/>
+                            <!-- Service Picker -->
+                            <Picker Grid.Column="1"
+                                    Title="Select Service"
                                     ItemsSource="{Binding Services}"
                                     SelectedItem="{Binding SelectedService}"
                                     ItemDisplayBinding="{Binding Nom}"
                                     TextColor="#E0E0E0"
                                     BackgroundColor="#2A2A2A"
-                                    FontSize="16"
-                                    Margin="0,5"
-                                    HeightRequest="50"/>
-                     </VerticalStackLayout>
+                                    FontSize="16"/>
+                     </Grid>
 
                      <!-- Separator -->
                      <BoxView HeightRequest="1"
@@ -78,32 +110,32 @@
                               Margin="0,20"/>
 
                      <!-- Action Buttons -->
-                     <HorizontalStackLayout Spacing="15"
+                     <HorizontalStackLayout Spacing="20"
                                             HorizontalOptions="Center">
                             <Button Text="Save"
                                     Command="{Binding SaveEmployeeChangesCommand}"
                                     BackgroundColor="#4CAF50"
                                     TextColor="#FFFFFF"
-                                    WidthRequest="120"
-                                    HeightRequest="50"
-                                    CornerRadius="25"
-                                    FontSize="16"/>
+                                    WidthRequest="140"
+                                    HeightRequest="60"
+                                    CornerRadius="30"
+                                    FontSize="18"/>
                             <Button Text="Cancel"
                                     Command="{Binding ClosePopupCommand}"
                                     BackgroundColor="#F44336"
                                     TextColor="#FFFFFF"
-                                    WidthRequest="120"
-                                    HeightRequest="50"
-                                    CornerRadius="25"
-                                    FontSize="16"/>
+                                    WidthRequest="140"
+                                    HeightRequest="60"
+                                    CornerRadius="30"
+                                    FontSize="18"/>
                             <Button Text="Delete"
                                     Command="{Binding DeleteEmployeeCommand}"
                                     BackgroundColor="#FF5722"
                                     TextColor="#FFFFFF"
-                                    WidthRequest="120"
-                                    HeightRequest="50"
-                                    CornerRadius="25"
-                                    FontSize="16"/>
+                                    WidthRequest="140"
+                                    HeightRequest="60"
+                                    CornerRadius="30"
+                                    FontSize="18"/>
                      </HorizontalStackLayout>
               </VerticalStackLayout>
        </ScrollView>

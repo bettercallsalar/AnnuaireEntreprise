@@ -2,7 +2,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="AnnuaireEntreprise.Maui.Views.AddEmployeePopup"
-               Size="400,600">
+               Size="500,500">
        <ScrollView>
               <VerticalStackLayout Padding="20"
                                    Spacing="20"
@@ -16,7 +16,7 @@
                             Margin="0,10,0,20"/>
 
                      <!-- Input Fields -->
-                     <VerticalStackLayout Spacing="15">
+                     <VerticalStackLayout Spacing="10">
                             <!-- Nom Entry -->
                             <Entry Placeholder="Nom"
                                    Text="{Binding NewEmployee.Nom}"
@@ -71,31 +71,32 @@
                                    FontSize="12"
                                    TextColor="#F44336"/>
 
-                            <!-- Site Picker -->
-                            <Picker Title="Site"
-                                    ItemsSource="{Binding Sites}"
-                                    SelectedItem="{Binding SelectedSite}"
-                                    ItemDisplayBinding="{Binding Ville}"
-                                    FontSize="16"
-                                    TextColor="#E0E0E0"
-                                    BackgroundColor="#2A2A2A"
-                                    HeightRequest="50"/>
 
-                            <!-- Service Picker -->
-                            <Picker Title="Service"
-                                    ItemsSource="{Binding Services}"
-                                    SelectedItem="{Binding SelectedService}"
-                                    ItemDisplayBinding="{Binding Nom}"
-                                    FontSize="16"
-                                    TextColor="#E0E0E0"
-                                    BackgroundColor="#2A2A2A"
-                                    HeightRequest="50"/>
+                            <!-- Pickers -->
+                            <Grid ColumnDefinitions="*,*"
+                                  RowSpacing="15"
+                                  ColumnSpacing="15">
+                                   <!-- Site Picker -->
+                                   <Picker Grid.Column="0"
+                                           Title="Select Site"
+                                           ItemsSource="{Binding Sites}"
+                                           SelectedItem="{Binding SelectedSite}"
+                                           ItemDisplayBinding="{Binding Ville}"
+                                           TextColor="#E0E0E0"
+                                           BackgroundColor="#2A2A2A"
+                                           FontSize="16"/>
+                                   <!-- Service Picker -->
+                                   <Picker Grid.Column="1"
+                                           Title="Select Service"
+                                           ItemsSource="{Binding Services}"
+                                           SelectedItem="{Binding SelectedService}"
+                                           ItemDisplayBinding="{Binding Nom}"
+                                           TextColor="#E0E0E0"
+                                           BackgroundColor="#2A2A2A"
+                                           FontSize="16"/>
+                            </Grid>
+
                      </VerticalStackLayout>
-
-                     <!-- Separator -->
-                     <BoxView HeightRequest="1"
-                              BackgroundColor="#424242"
-                              Margin="0,20"/>
 
                      <!-- Buttons -->
                      <HorizontalStackLayout HorizontalOptions="Center"

@@ -1,128 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="AnnuaireEntreprise.Maui.Views.SitePopup"
-               Size="400,600">
-    <ScrollView>
-        <VerticalStackLayout Padding="20"
-                             Spacing="20"
-                             BackgroundColor="#FFFFFF">
-            <!-- Title -->
-            <Label Text="Manage Sites"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   TextColor="#333"
-                   HorizontalOptions="Center"/>
+               Size="500,700">
+       <ScrollView>
+              <VerticalStackLayout Padding="30"
+                                   Spacing="30"
+                                   BackgroundColor="#1E1E1E">
+                     <!-- Title -->
+                     <Label Text="Manage Sites"
+                            FontSize="28"
+                            FontAttributes="Bold"
+                            TextColor="#E0E0E0"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,20"/>
 
-            <!-- Add New Site -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Add New Site"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="#007AFF"/>
-                <Entry Placeholder="Enter Ville"
-                       Text="{Binding NewSiteName}"
-                       FontSize="16"
-                       BackgroundColor="#F8F8F8"
-                       Margin="0,5"/>
-                <Button Text="Add Site"
-                        Command="{Binding AddSiteCommand}"
-                        BackgroundColor="#28A745"
-                        TextColor="White"
-                        WidthRequest="150"
-                        CornerRadius="10"
-                        HorizontalOptions="Start"/>
-            </VerticalStackLayout>
+                     <!-- Add New Site -->
+                     <VerticalStackLayout Spacing="15">
+                            <Label Text="Add New Site"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#4CAF50"/>
+                            <HorizontalStackLayout>
+                                   <Entry Placeholder="Enter Ville"
+                                          Text="{Binding NewSiteName}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#2A2A2A"
+                                          HeightRequest="50"
+                                          WidthRequest="300"
+                                          Margin="0,0,10,0"/>
+                                   <Button Text="Add"
+                                           Command="{Binding AddSiteCommand}"
+                                           BackgroundColor="#4CAF50"
+                                           TextColor="#FFFFFF"
+                                           CornerRadius="25"
+                                           HeightRequest="50"
+                                           FontSize="16"/>
 
-            <!-- Separator -->
-            <BoxView HeightRequest="1"
-                     BackgroundColor="#E0E0E0"
-                     Margin="0,20"/>
-
-            <!-- Modify Site -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Modify Existing Site"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="#007AFF"/>
-
-                <!-- Site Picker -->
-                <Picker Title="Select Site"
-                        ItemsSource="{Binding Sites}"
-                        SelectedItem="{Binding SelectedSiteForModification}"
-                        ItemDisplayBinding="{Binding Ville}"
-                        FontSize="16"
-                        BackgroundColor="#F8F8F8"
-                        Margin="0,5"/>
-
-                <!-- Modify Site Ville -->
-                <Entry Placeholder="Enter New Ville"
-                       Text="{Binding ModifiedSiteName}"
-                       FontSize="16"
-                       BackgroundColor="#F8F8F8"
-                       Margin="0,5"/>
-
-                <Button Text="Modify Site"
-                        Command="{Binding ModifySiteCommand}"
-                        BackgroundColor="#007AFF"
-                        TextColor="White"
-                        WidthRequest="150"
-                        CornerRadius="10"
-                        HorizontalOptions="Start"/>
-            </VerticalStackLayout>
-
-            <!-- Separator -->
-            <BoxView HeightRequest="1"
-                     BackgroundColor="#E0E0E0"
-                     Margin="0,20"/>
-
-            <!-- Site List -->
-            <Label Text="Existing Sites"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#007AFF"
-                   Margin="0,5"/>
-
-            <CollectionView ItemsSource="{Binding Sites}"
-                            SelectionMode="None"
-                            Margin="0,10,0,20">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Padding="10"
-                               Margin="0,5"
-                               BackgroundColor="#F9F9F9"
-                               CornerRadius="10"
-                               BorderColor="#E0E0E0"
-                               HasShadow="True">
-                            <HorizontalStackLayout Spacing="10">
-                                <Label Text="{Binding Ville}"
-                                       FontSize="16"
-                                       VerticalTextAlignment="Center"
-                                       TextColor="#333"
-                                       FontAttributes="Bold"/>
-                                <Button Text="Delete"
-                                        Command="{Binding BindingContext.DeleteSiteCommand, Source={RelativeSource AncestorType={x:Type toolkit:Popup}}}"
-                                        CommandParameter="{Binding Id}"
-                                        BackgroundColor="#FF0000"
-                                        TextColor="White"
-                                        WidthRequest="80"
-                                        HeightRequest="40"
-                                        CornerRadius="10"/>
                             </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
 
-            <!-- Close Button -->
-            <Button Text="Close"
-                    Command="{Binding ClosePopupCommand}"
-                    BackgroundColor="#FF5722"
-                    TextColor="White"
-                    WidthRequest="120"
-                    HeightRequest="50"
-                    CornerRadius="10"
-                    HorizontalOptions="Center"/>
-        </VerticalStackLayout>
-    </ScrollView>
+                     </VerticalStackLayout>
+
+                     <!-- Separator -->
+                     <BoxView HeightRequest="1"
+                              BackgroundColor="#424242"/>
+
+                     <!-- Modify Existing Site -->
+                     <VerticalStackLayout Spacing="15">
+                            <Label Text="Modify Existing Site"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#1E88E5"/>
+
+                            <Picker Title="Select Site"
+                                    ItemsSource="{Binding Sites}"
+                                    SelectedItem="{Binding SelectedSiteForModification}"
+                                    ItemDisplayBinding="{Binding Ville}"
+                                    FontSize="16"
+                                    TextColor="#E0E0E0"
+                                    BackgroundColor="#2A2A2A"/>
+
+                            <HorizontalStackLayout>
+                                   <Entry Placeholder="Enter New Ville"
+                                          Text="{Binding ModifiedSiteName}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#2A2A2A"
+                                          HeightRequest="50"
+                                          WidthRequest="300"
+                                          Margin="0,0,10,0"/>
+                                   <Button Text="Modify"
+                                           Command="{Binding ModifySiteCommand}"
+                                           BackgroundColor="#1E88E5"
+                                           TextColor="#FFFFFF"
+                                           CornerRadius="25"
+                                           HeightRequest="50"
+                                           FontSize="16"/>
+                            </HorizontalStackLayout>
+                     </VerticalStackLayout>
+
+                     <!-- Separator -->
+                     <BoxView HeightRequest="1"
+                              BackgroundColor="#424242"/>
+
+                     <!-- Site List -->
+                     <Label Text="Existing Sites"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            TextColor="#E0E0E0"
+                            Margin="0,0,0,10"/>
+                     <CollectionView ItemsSource="{Binding Sites}"
+                                     SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                   <DataTemplate>
+                                          <Frame Padding="10"
+                                                 BackgroundColor="#2A2A2A"
+                                                 CornerRadius="10"
+                                                 Margin="0,5"
+                                                 BorderColor="#424242">
+                                                 <Grid ColumnDefinitions="*,auto"
+                                                       VerticalOptions="Center">
+                                                        <Label Text="{Binding Ville}"
+                                                               FontSize="16"
+                                                               TextColor="#FFFFFF"
+                                                               VerticalOptions="Center"/>
+                                                        <Button Text="Delete"
+                                                                Command="{Binding BindingContext.DeleteSiteCommand, Source={RelativeSource AncestorType={x:Type toolkit:Popup}}}"
+                                                                CommandParameter="{Binding Id}"
+                                                                BackgroundColor="#F44336"
+                                                                TextColor="#FFFFFF"
+                                                                CornerRadius="15"
+                                                                WidthRequest="80"
+                                                                HeightRequest="40"
+                                                                Grid.Column="1"/>
+                                                 </Grid>
+                                          </Frame>
+                                   </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                     </CollectionView>
+
+                     <!-- Close Button -->
+                     <Button Text="Close"
+                             Command="{Binding ClosePopupCommand}"
+                             BackgroundColor="#FF5722"
+                             TextColor="#FFFFFF"
+                             WidthRequest="150"
+                             HeightRequest="50"
+                             CornerRadius="25"
+                             FontSize="16"
+                             HorizontalOptions="Center"/>
+              </VerticalStackLayout>
+       </ScrollView>
 </toolkit:Popup>

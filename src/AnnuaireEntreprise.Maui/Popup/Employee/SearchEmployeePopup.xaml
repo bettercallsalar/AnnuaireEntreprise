@@ -3,7 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="AnnuaireEntreprise.Maui.Views.SearchEmployeePopup"
-               Size="400,600">
+               Size="600,700">
        <ScrollView>
               <VerticalStackLayout Padding="20"
                                    Spacing="20"
@@ -42,22 +42,27 @@
 
                      <!-- Input Fields -->
                      <VerticalStackLayout Spacing="15">
-                            <Entry Placeholder="Nom"
-                                   Text="{Binding SearchNom}"
-                                   FontSize="16"
-                                   TextColor="#E0E0E0"
-                                   PlaceholderColor="#757575"
-                                   BackgroundColor="#1D1D1D"
-                                   Margin="0,5"
-                                   HeightRequest="50"/>
-                            <Entry Placeholder="Prenom"
-                                   Text="{Binding SearchPrenom}"
-                                   FontSize="16"
-                                   TextColor="#E0E0E0"
-                                   PlaceholderColor="#757575"
-                                   BackgroundColor="#1D1D1D"
-                                   Margin="0,5"
-                                   HeightRequest="50"/>
+                            <Grid ColumnDefinitions="*,*"
+                                  RowDefinitions="Auto">
+                                   <Entry Grid.Column="0"
+                                          Placeholder="Nom"
+                                          Text="{Binding SearchNom}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#1D1D1D"
+                                          Margin="0,5"
+                                          HeightRequest="50"/>
+                                   <Entry Grid.Column="1"
+                                          Placeholder="Prenom"
+                                          Text="{Binding SearchPrenom}"
+                                          FontSize="16"
+                                          TextColor="#E0E0E0"
+                                          PlaceholderColor="#757575"
+                                          BackgroundColor="#1D1D1D"
+                                          Margin="0,5"
+                                          HeightRequest="50"/>
+                            </Grid>
                             <Entry Placeholder="Email"
                                    Text="{Binding SearchEmail}"
                                    FontSize="16"
@@ -85,24 +90,27 @@
                                    Keyboard="Telephone"
                                    Margin="0,5"
                                    HeightRequest="50"/>
-                            <Picker Title="Site"
-                                    ItemsSource="{Binding Sites}"
-                                    SelectedItem="{Binding SelectedSite}"
-                                    ItemDisplayBinding="{Binding Ville}"
-                                    TextColor="#FFFFFF"
-                                    BackgroundColor="#1D1D1D"
-                                    FontSize="16"
-                                    Margin="0,5"
-                                    HeightRequest="50"/>
-                            <Picker Title="Service"
-                                    ItemsSource="{Binding Services}"
-                                    SelectedItem="{Binding SelectedService}"
-                                    ItemDisplayBinding="{Binding Nom}"
-                                    TextColor="#FFFFFF"
-                                    BackgroundColor="#1D1D1D"
-                                    FontSize="16"
-                                    Margin="0,5"
-                                    HeightRequest="50"/>
+                            <Grid ColumnDefinitions="*,*"
+                                  RowDefinitions="Auto">
+                                   <Picker Grid.Column="0"
+                                           Title="Site"
+                                           ItemsSource="{Binding Sites}"
+                                           SelectedItem="{Binding SelectedSite}"
+                                           ItemDisplayBinding="{Binding Ville}"
+                                           TextColor="#FFFFFF"
+                                           BackgroundColor="#1D1D1D"
+                                           FontSize="16"
+                                           Margin="0,5"/>
+                                   <Picker Grid.Column="1"
+                                           Title="Service"
+                                           ItemsSource="{Binding Services}"
+                                           SelectedItem="{Binding SelectedService}"
+                                           ItemDisplayBinding="{Binding Nom}"
+                                           TextColor="#FFFFFF"
+                                           BackgroundColor="#1D1D1D"
+                                           FontSize="16"
+                                           Margin="0,5"/>
+                            </Grid>
                      </VerticalStackLayout>
 
 
