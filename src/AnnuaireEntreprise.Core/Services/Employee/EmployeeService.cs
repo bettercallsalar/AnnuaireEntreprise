@@ -14,9 +14,9 @@ namespace AnnuaireEntreprise.Core
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<List<EmployeeDTO>> GetAllEmployees()
+        public async Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize)
         {
-            return await _employeeRepository.GetAllEmployees();
+            return await _employeeRepository.GetAllEmployees(page, pageSize);
         }
 
         public async Task<EmployeeDTO> GetEmployeeById(int id)
@@ -24,12 +24,12 @@ namespace AnnuaireEntreprise.Core
             return await _employeeRepository.GetEmployeeById(id);
         }
 
-        public async Task<EmployeeDTO> AddEmployee(EmployeeDTO employee)
+        public async Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee)
         {
             return await _employeeRepository.AddEmployee(employee);
         }
 
-        public async Task<bool> UpdateEmployee(EmployeeDTO employee)
+        public async Task<bool> UpdateEmployee(CreateEmployeeDTO employee)
         {
             return await _employeeRepository.UpdateEmployee(employee);
         }
@@ -37,6 +37,16 @@ namespace AnnuaireEntreprise.Core
         public async Task<bool> DeleteEmployee(int id)
         {
             return await _employeeRepository.DeleteEmployee(id);
+        }
+
+        public async Task<List<EmployeeDTO>> SearchEmployeeByArg(SearchEmployeeDTO searchEmployeeDTO)
+        {
+            return await _employeeRepository.FetchEmployeesByArg(searchEmployeeDTO);
+        }
+
+        public async Task<int> GetTotalEmployeeCount()
+        {
+            return await _employeeRepository.FetchTotalEmployeeCount();
         }
     }
 }

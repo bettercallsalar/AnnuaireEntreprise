@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnnuaireEntreprise.Model.Models
 {
-    public class EmployeeDTO
+    public class CreateEmployeeDTO
     {
         public int Id { get; set; }
 
@@ -19,8 +19,8 @@ namespace AnnuaireEntreprise.Model.Models
 
         public string? TelephoneFixe { get; set; }
 
-        public required SiteDTO Site { get; set; }
+        public required int SiteId { get; set; }
 
-        public required ServiceDTO Service { get; set; }
+        public required int ServiceId { get; set; }
     }
 }

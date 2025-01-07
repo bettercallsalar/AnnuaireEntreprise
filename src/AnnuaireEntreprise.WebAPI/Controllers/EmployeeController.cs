@@ -28,10 +28,12 @@ namespace WebAPI
         /// <response code="200">Returns the list of employees</response>
         /// <response code="500">If an error occurs</response>
         /// <returns></returns>
-        [HttpGet("get-all-employees")]
-        public async Task<IActionResult> GetAllEmployees()
+        [HttpGet("get-all-employees/{page}/{pageSize}")]
+        public async Task<IActionResult> GetAllEmployees(int page, int pageSize)
         {
-            var employees = await _employeeService.GetAllEmployees();
+            Console.WriteLine("Get all employees");
+            var employees = await _employeeService.GetAllEmployees(page, pageSize);
+
             return Ok(employees);
         }
 
@@ -70,9 +72,12 @@ namespace WebAPI
         /// <returns></returns>
         /// 
         [HttpPost("add-employee")]
-        public async Task<IActionResult> AddEmployee([FromBody] EmployeeDTO employee)
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeDTO employee)
         {
+            Console.WriteLine("Add employee");
+            Console.WriteLine(employee);
             var result = await _employeeService.AddEmployee(employee);
+            Console.WriteLine(result);
             return Ok(result);
         }
 
@@ -88,7 +93,7 @@ namespace WebAPI
         /// <returns></returns>
         ///    
         [HttpPut("update-employee")]
-        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeDTO employee)
+        public async Task<IActionResult> UpdateEmployee([FromBody] CreateEmployeeDTO employee)
         {
             var result = await _employeeService.UpdateEmployee(employee);
             if (result)
@@ -118,6 +123,53 @@ namespace WebAPI
                 return Ok();
             }
             return BadRequest();
+        }
+
+        /// <summary>
+        /// Search employee by arguments
+        /// </summary>
+        /// <param name="nom"></param>
+        /// <param name="prenom"></param>
+        /// <param name="email"></param>
+        /// <param name="telephone"></param>
+        /// <param name="siteId"></param>
+        /// <param name="serviceId"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>
+        /// List of employees
+        /// </returns>
+        /// <response code="200">Returns the list of employees</response>
+        /// <response code="500">If an error occurs</response>
+        /// <returns></returns>
+        /// 
+        [HttpPost("search-employee-by-arg")]
+        public async Task<IActionResult> SearchEmployeeByArg([FromBody] SearchEmployeeDTO searchEmployeeDTO)
+        {
+            Console.WriteLine("Search employee by arg");
+            Console.WriteLine(searchEmployeeDTO.Nom);
+            var employees = await _employeeService.SearchEmployeeByArg(searchEmployeeDTO);
+            foreach (var employee in employees)
+            {
+                Console.WriteLine(employee.Nom);
+            }
+            return Ok(employees);
+        }
+        /// <summary>
+        /// Get total employee count
+        /// </summary>
+        /// <returns>
+        /// Total employee count
+        /// </returns>
+        /// <response code="200">Returns the total employee count</response>
+        /// <response code="500">If an error occurs</response>
+        /// <returns></returns>
+        /// 
+        [HttpGet("get-total-employee-count")]
+        public async Task<IActionResult> GetTotalEmployeeCount()
+        {
+            var count = await _employeeService.GetTotalEmployeeCount();
+            return Ok(count);
         }
     }
 }

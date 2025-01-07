@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace AnnuaireEntreprise.Maui;
 
@@ -7,6 +8,7 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
+		builder.UseMauiCommunityToolkit();
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>

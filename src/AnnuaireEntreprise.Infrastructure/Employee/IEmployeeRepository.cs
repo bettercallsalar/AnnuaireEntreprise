@@ -6,13 +6,15 @@ namespace AnnuaireEntreprise.Infrastructure
 {
     public interface IEmployeeRepository
     {
-        Task<List<EmployeeDTO>> GetAllEmployees();
+        Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize);
         Task<EmployeeDTO> GetEmployeeById(int id);
-        Task<EmployeeDTO> AddEmployee(EmployeeDTO employee);
-        Task<bool> UpdateEmployee(EmployeeDTO employee);
+        Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
+        Task<bool> UpdateEmployee(CreateEmployeeDTO employee);
         Task<bool> DeleteEmployee(int id);
 
         // methods chercher par nom, prenom, email, telephone, site, service
-        Task<List<EmployeeDTO>> SearchEmployeeByArg(string? nom, string? prenom, string? email, string? telephone, int? siteId, int? serviceId);
+        Task<List<EmployeeDTO>> FetchEmployeesByArg(SearchEmployeeDTO searchEmployeeDTO);
+
+        Task<int> FetchTotalEmployeeCount();
     }
 }

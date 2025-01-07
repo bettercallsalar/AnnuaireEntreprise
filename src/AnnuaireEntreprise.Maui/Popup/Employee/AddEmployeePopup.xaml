@@ -1,0 +1,122 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="AnnuaireEntreprise.Maui.Views.AddEmployeePopup"
+               Size="400,600">
+       <ScrollView>
+              <VerticalStackLayout Padding="20"
+                                   Spacing="20"
+                                   BackgroundColor="#1E1E1E">
+                     <!-- Title -->
+                     <Label Text="Add New Employee"
+                            FontSize="26"
+                            FontAttributes="Bold"
+                            TextColor="#E0E0E0"
+                            HorizontalOptions="Center"
+                            Margin="0,10,0,20"/>
+
+                     <!-- Input Fields -->
+                     <VerticalStackLayout Spacing="15">
+                            <!-- Nom Entry -->
+                            <Entry Placeholder="Nom"
+                                   Text="{Binding NewEmployee.Nom}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   HeightRequest="50"/>
+                            <Label Text="Nom is required"
+                                   IsVisible="{Binding NewEmployee.Nom, Converter={StaticResource StringNotEmptyConverter}}"
+                                   FontSize="12"
+                                   TextColor="#F44336"/>
+
+                            <!-- Prenom Entry -->
+                            <Entry Placeholder="Prenom"
+                                   Text="{Binding NewEmployee.Prenom}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   HeightRequest="50"/>
+                            <Label Text="Prenom is required"
+                                   IsVisible="{Binding NewEmployee.Prenom, Converter={StaticResource StringNotEmptyConverter}}"
+                                   FontSize="12"
+                                   TextColor="#F44336"/>
+
+                            <!-- Email Entry -->
+                            <Entry Placeholder="Email"
+                                   Text="{Binding NewEmployee.Email}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   Keyboard="Email"
+                                   HeightRequest="50"/>
+                            <Label Text="Email is required"
+                                   IsVisible="{Binding NewEmployee.Email, Converter={StaticResource StringNotEmptyConverter}}"
+                                   FontSize="12"
+                                   TextColor="#F44336"/>
+
+                            <!-- Telephone Portable Entry -->
+                            <Entry Placeholder="Telephone Portable"
+                                   Text="{Binding NewEmployee.TelephonePortable}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   Keyboard="Telephone"
+                                   HeightRequest="50"/>
+                            <Label Text="Telephone Portable is required"
+                                   IsVisible="{Binding NewEmployee.TelephonePortable, Converter={StaticResource StringNotEmptyConverter}}"
+                                   FontSize="12"
+                                   TextColor="#F44336"/>
+
+                            <!-- Site Picker -->
+                            <Picker Title="Site"
+                                    ItemsSource="{Binding Sites}"
+                                    SelectedItem="{Binding SelectedSite}"
+                                    ItemDisplayBinding="{Binding Ville}"
+                                    FontSize="16"
+                                    TextColor="#E0E0E0"
+                                    BackgroundColor="#2A2A2A"
+                                    HeightRequest="50"/>
+
+                            <!-- Service Picker -->
+                            <Picker Title="Service"
+                                    ItemsSource="{Binding Services}"
+                                    SelectedItem="{Binding SelectedService}"
+                                    ItemDisplayBinding="{Binding Nom}"
+                                    FontSize="16"
+                                    TextColor="#E0E0E0"
+                                    BackgroundColor="#2A2A2A"
+                                    HeightRequest="50"/>
+                     </VerticalStackLayout>
+
+                     <!-- Separator -->
+                     <BoxView HeightRequest="1"
+                              BackgroundColor="#424242"
+                              Margin="0,20"/>
+
+                     <!-- Buttons -->
+                     <HorizontalStackLayout HorizontalOptions="Center"
+                                            Spacing="15">
+                            <Button Text="Add"
+                                    Command="{Binding AddEmployeeCommand}"
+                                    BackgroundColor="#4CAF50"
+                                    TextColor="#FFFFFF"
+                                    WidthRequest="120"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    FontSize="16"/>
+                            <Button Text="Cancel"
+                                    Command="{Binding ClosePopupCommand}"
+                                    BackgroundColor="#F44336"
+                                    TextColor="#FFFFFF"
+                                    WidthRequest="120"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    FontSize="16"/>
+                     </HorizontalStackLayout>
+              </VerticalStackLayout>
+       </ScrollView>
+</toolkit:Popup>

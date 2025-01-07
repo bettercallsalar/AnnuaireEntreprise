@@ -1,8 +1,8 @@
 // Author: Salar
-// Created: 06/01/2024
+// Created Date: 06/01/2025
 using AnnuaireEntreprise.Model.Models;
 
-namespace AnnuaireEntreprise.Core
+namespace AnnuaireEntreprise.Maui.Services.Employee
 {
     public interface IEmployeeService
     {
@@ -11,7 +11,7 @@ namespace AnnuaireEntreprise.Core
         Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
         Task<bool> UpdateEmployee(CreateEmployeeDTO employee);
         Task<bool> DeleteEmployee(int id);
-        Task<List<EmployeeDTO>> SearchEmployeeByArg(SearchEmployeeDTO searchEmployeeDTO);
+        Task<List<EmployeeDTO>?> SearchEmployeeByArg(SearchEmployeeDTO searchEmployeeDTO);
         Task<int> GetTotalEmployeeCount();
     }
 }
