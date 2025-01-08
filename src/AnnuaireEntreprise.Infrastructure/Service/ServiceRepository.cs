@@ -15,6 +15,7 @@ namespace AnnuaireEntreprise.Infrastructure
             _connector = connector;
         }
 
+        // Fetch all services
         public async Task<List<ServiceDTO>> FetchAllServices()
         {
             using var connection = _connector.GetConnection();
@@ -34,6 +35,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return services ?? new List<ServiceDTO>();
         }
 
+        // Fetch service by id. Not used in the project
         public async Task<ServiceDTO> FetchServiceById(int id)
         {
             using var connection = _connector.GetConnection();
@@ -57,6 +59,7 @@ namespace AnnuaireEntreprise.Infrastructure
             };
         }
 
+        // Insert a new service
         public async Task<ServiceDTO> InsertService(ServiceDTO service)
         {
             using var connection = _connector.GetConnection();
@@ -69,6 +72,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return service;
         }
 
+        // Update a service
         public async Task<bool> UpdateService(ServiceDTO service)
         {
             using var connection = _connector.GetConnection();
@@ -80,6 +84,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return await command.ExecuteNonQueryAsync() > 0;
         }
 
+        // Delete a service
         public async Task<bool> DeleteService(int id)
         {
             using var connection = _connector.GetConnection();

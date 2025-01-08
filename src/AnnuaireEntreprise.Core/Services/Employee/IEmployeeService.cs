@@ -4,12 +4,13 @@ using AnnuaireEntreprise.Model.Models;
 
 namespace AnnuaireEntreprise.Core
 {
+    // Interface for EmployeeService. The methods are implemented in EmployeeService.cs
     public interface IEmployeeService
     {
         Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize);
         Task<EmployeeDTO> GetEmployeeById(int id);
-        Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
-        Task<bool> UpdateEmployee(CreateEmployeeDTO employee);
+        Task<EmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
+        Task<bool> UpdateEmployee(ModifyEmployeeDTO employee);
         Task<bool> DeleteEmployee(int id);
         Task<List<EmployeeDTO>> SearchEmployeeByArg(SearchEmployeeDTO searchEmployeeDTO);
         Task<int> GetTotalEmployeeCount();

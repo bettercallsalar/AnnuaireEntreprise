@@ -1,18 +1,20 @@
 // Author: Salar
 // Created: 06/01/2024
 using AnnuaireEntreprise.Model.Models;
-using AnnuaireEntreprise.Maui.Services;
 
 namespace AnnuaireEntreprise.Maui.Services.Employee
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly ApiService _apiService;
+
+        // Constructor
         public EmployeeService()
         {
             _apiService = new ApiService();
         }
 
+        // Ferch All Employees from API. 
         public async Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize)
         {
             try
@@ -35,7 +37,7 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
-
+        // Fetch Employee by Id
         public async Task<EmployeeDTO> GetEmployeeById(int id)
         {
             try
@@ -86,6 +88,7 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
+        // Add Employee
         public async Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee)
         {
             try
@@ -122,7 +125,8 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
-        public async Task<bool> UpdateEmployee(CreateEmployeeDTO employee)
+        // Update Employee
+        public async Task<bool> UpdateEmployee(ModifyEmployeeDTO employee)
         {
             try
             {
@@ -137,6 +141,7 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
+        // Delete Employee
         public async Task<bool> DeleteEmployee(int id)
         {
             try
@@ -151,6 +156,7 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
+        // Search Employee by Argument. 
         public async Task<List<EmployeeDTO>?> SearchEmployeeByArg(SearchEmployeeDTO searchEmployeeDTO)
         {
             try
@@ -169,7 +175,7 @@ namespace AnnuaireEntreprise.Maui.Services.Employee
             }
         }
 
-
+        // Get Total Employee Count
         public async Task<int> GetTotalEmployeeCount()
         {
             try

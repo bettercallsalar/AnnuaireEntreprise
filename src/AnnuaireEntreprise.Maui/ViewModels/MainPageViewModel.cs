@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-//using Android.Service.Credentials;
 using AnnuaireEntreprise.Maui.Services.Employee;
 using AnnuaireEntreprise.Maui.Services.Service;
 using AnnuaireEntreprise.Maui.Services.Site;
@@ -11,11 +10,17 @@ using CommunityToolkit.Maui.Views;
 
 namespace AnnuaireEntreprise.Maui.ViewModels
 {
+
     public class MainPageViewModel : BaseViewModel
     {
+        // All the functionality of Annuaire Entreprise will be implemented here. 
+
+        // The EmployeeService, SiteService, and ServiceService classes are used to interact with the API.
         private readonly EmployeeService _employeeService = new EmployeeService();
         private readonly SiteService _siteService = new SiteService();
         private readonly ServiceService _serviceService = new ServiceService();
+
+        // The ObservableCollection is used to store the data that will be displayed in the ListView.
         private ObservableCollection<SiteDTO> _sites = new();
         private ObservableCollection<EmployeeDTO> _pagedFilteredEmployees = new();
         public ObservableCollection<EmployeeDTO> PagedFilteredEmployees
@@ -23,6 +28,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             get => _pagedFilteredEmployees;
             set => SetProperty(ref _pagedFilteredEmployees, value);
         }
+        public ObservableCollection<int> PageSizeOptions { get; } = new ObservableCollection<int> { 10, 15, 20, 25, 30 };
 
         private ObservableCollection<ServiceDTO> _services = new();
         public ObservableCollection<ServiceDTO> Services
@@ -36,6 +42,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _sites, value);
         }
 
+        // The Popup property is used to display popups in the UI. It is a generic type that can be used to display different types of popups.
         private Popup? _popup;
         public Popup? Popup
         {
@@ -43,8 +50,9 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _popup, value);
         }
 
+        // The Secret Part of application to access admin mode
         private int _titleClickCount = 0;
-        private const int SecretKeyTapThreshold = 1;
+        private const int SecretKeyTapThreshold = 11;
         private const string AdminPassword = "Cesi";
         private bool _isAdmin;
         public bool IsAdmin
@@ -53,12 +61,24 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _isAdmin, value);
         }
 
+        // The IsSearchActive property is used to determine if the search functionality is active.
+        public bool IsNotSearchActive => !IsSearchActive;
         private bool _isSearchActive;
         public bool IsSearchActive
         {
             get => _isSearchActive;
-            set => SetProperty(ref _isSearchActive, value);
+            set
+            {
+                if (SetProperty(ref _isSearchActive, value))
+                {
+                    OnPropertyChanged(nameof(IsNotSearchActive)); // Notify change for IsNotSearchActive
+                }
+            }
         }
+
+
+
+        // The Search properties are used to store the search criteria entered by the user.
         private string? _searchNom;
         public string? SearchNom
         {
@@ -71,14 +91,12 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             get => _searchPrenom;
             set => SetProperty(ref _searchPrenom, value);
         }
-
         private string? _searchEmail;
         public string? SearchEmail
         {
             get => _searchEmail;
             set => SetProperty(ref _searchEmail, value);
         }
-
         private string? _searchTelephone;
         public string? SearchTelephone
         {
@@ -91,7 +109,9 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             get => _searchTelephoneFixe;
             set => SetProperty(ref _searchTelephoneFixe, value);
         }
-        private int _pageSize = 15;
+
+        // The PageSize, CurrentPage, and TotalPages properties are used for pagination.
+        private int _pageSize = 15; // Default page size
         public int PageSize
         {
             get => _pageSize;
@@ -99,11 +119,12 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             {
                 if (SetProperty(ref _pageSize, value))
                 {
-                    Task.Run(LoadEmployeesAsync);
+                    Task.Run(LoadEmployeesAsync); // Reload employees when page size changes
                 }
             }
         }
 
+        // The CurrentPage property is used to keep track of the current page number.
         private int _currentPage = 1;
         public int CurrentPage
         {
@@ -118,32 +139,35 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             }
         }
 
+        // The TotalPages property is used to store the total number of pages. 
+        // There is a rout to calculate the total number of pages based on the total number of employees and the page size.
         private int _totalPages = 1;
         public int TotalPages
         {
             get => _totalPages;
             private set => SetProperty(ref _totalPages, value);
         }
+
+        // instances of Employee
         private EmployeeDTO? _selectedInfoEmployee;
         public EmployeeDTO? SelectedInfoEmployee
         {
             get => _selectedInfoEmployee;
             set => SetProperty(ref _selectedInfoEmployee, value);
         }
-
         private CreateEmployeeDTO? _selectedEmployee;
         public CreateEmployeeDTO? SelectedEmployee
         {
             get => _selectedEmployee;
             set => SetProperty(ref _selectedEmployee, value);
         }
-
-        private CreateEmployeeDTO? _selectedEmployeeForModification;
-        public CreateEmployeeDTO? SelectedEmployeeForModification
+        private ModifyEmployeeDTO? _selectedEmployeeForModification;
+        public ModifyEmployeeDTO? SelectedEmployeeForModification
         {
             get => _selectedEmployeeForModification;
             set => SetProperty(ref _selectedEmployeeForModification, value);
         }
+        // The NewEmployee property is used to store the data entered by the user in the Add Employee popup.
         private CreateEmployeeDTO _newEmployee = new CreateEmployeeDTO
         {
             Nom = string.Empty,
@@ -160,13 +184,13 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _newEmployee, value);
         }
 
+        // The NewSiteName and NewServiceName properties are used to store the data entered by the user in the Add Site and Add Service popups.
         private string _newSiteName = string.Empty;
         public string NewSiteName
         {
             get => _newSiteName;
             set => SetProperty(ref _newSiteName, value);
         }
-
         private string _newServiceName = string.Empty;
         public string NewServiceName
         {
@@ -205,6 +229,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _modifiedSiteName, value);
         }
 
+        // The SelectedService and SelectedServiceForModification properties are used to store the selected service from the picker.
         private ServiceDTO? _selectedService;
         public ServiceDTO? SelectedService
         {
@@ -234,6 +259,27 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             set => SetProperty(ref _modifiedServiceName, value);
         }
 
+        // Adjust the properties to include the placeholder or None option
+        public ObservableCollection<SiteDTO> SitesWithPlaceholder
+        {
+            get
+            {
+                var sitesWithNone = new ObservableCollection<SiteDTO>(Sites);
+                sitesWithNone.Insert(0, new SiteDTO { Id = 0, Ville = "None" }); // Add placeholder
+                return sitesWithNone;
+            }
+        }
+        public ObservableCollection<ServiceDTO> ServicesWithPlaceholder
+        {
+            get
+            {
+                var servicesWithNone = new ObservableCollection<ServiceDTO>(Services);
+                servicesWithNone.Insert(0, new ServiceDTO { Id = 0, Nom = "None" }); // Add placeholder
+                return servicesWithNone;
+            }
+        }
+
+        // The Commands are used to handle user interactions in the UI.
         public ICommand AddEmployeeCommand { get; }
         public ICommand SaveEmployeeChangesCommand { get; }
         public ICommand AddSiteCommand { get; }
@@ -254,36 +300,40 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         public ICommand ShowAddEmployeePopupCommand { get; }
         public ICommand ShowModifyEmployeePopupCommand { get; }
         public ICommand ClosePopupCommand { get; }
+        public ICommand LogoutCommand { get; }
         public ICommand TitleClickedCommand { get; }
-
 
         public MainPageViewModel()
         {
+            // Initialize the commands
+
+            // The PreviousPageCommand and NextPageCommand are used to navigate between pages.
             PreviousPageCommand = new Command(
                 async () => await GoToPreviousPage(),
                 () =>
                 {
-                    Console.WriteLine($"CanExecute PreviousPageCommand: {CurrentPage > 1}");
                     return CurrentPage > 1;
                 });
-
             NextPageCommand = new Command(
-                async () =>
+                async () => await GoToNextPage());
 
-                    await GoToNextPage());
+            // Commmads for the Add, Save, Delete, and Modify operations
             AddEmployeeCommand = new Command(async () => await AddEmployeeAsync());
-            SaveEmployeeChangesCommand = new Command(async () => await SaveEmployeeAsync());
-            DeleteEmployeeCommand = new Command(async () => await RemoveEmployeeIfPossible());
             AddSiteCommand = new Command(async () => await AddSiteAsync());
-            DeleteSiteCommand = new Command<int>(async (Id) => await RemoveSiteIfPossible(Id));
             AddServiceCommand = new Command(async () => await AddServiceAsync());
+            SaveEmployeeChangesCommand = new Command(async () => await SaveEmployeeAsync());
             ModifyServiceCommand = new Command(async () => await ModifyServiceAsync());
             ModifySiteCommand = new Command(async () => await ModifySiteAsync());
+            DeleteEmployeeCommand = new Command(async () => await RemoveEmployeeIfPossible());
+            DeleteSiteCommand = new Command<int>(async (Id) => await RemoveSiteIfPossible(Id));
             DeleteServiceCommand = new Command<int>(async (Id) => await RemoveServiceIfPossible(Id));
+
+            // Initialize the SelectedSite and SelectedService properties
             _selectedSite = new SiteDTO { Id = 0, Ville = string.Empty };
             _selectedService = new ServiceDTO { Id = 0, Nom = string.Empty };
-            ShowEmployeeDetailsPopupCommand = new Command<int>(ShowEmployeeDetailsPopup);
 
+            // The Popup commands are used to display the popups in the UI.
+            ShowEmployeeDetailsPopupCommand = new Command<int>(ShowEmployeeDetailsPopup);
             ShowSearchPopupCommand = new Command(() =>
             {
                 var popup = new SearchEmployeePopup { BindingContext = this };
@@ -322,22 +372,29 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             });
             ShowModifyEmployeePopupCommand = new Command<int>(ShowModifyEmployeePopup);
 
-
+            // The Search and ClearSearch commands are used to perform and clear the search functionality.
             PerformSearchCommand = new Command(async () => await PerformSearchAsync());
             ClearSearchCommand = new Command(async () => await ClearSearchAsync());
+
+            // The ClosePopupCommand is used to close the popup.
             ClosePopupCommand = new Command(() => Popup?.Close());
+
+            // The LogoutCommand is used to log out of the admin mode.
+            LogoutCommand = new Command(() => IsAdmin = false);
+            // The TitleClickedCommand is used to activate the admin mode.
             TitleClickedCommand = new Command(OnTitleClicked);
 
-
+            // Load the data when the ViewModel is initialized
             Task.Run(LoadEmployeesAsync);
             Task.Run(LoadSitesAsync);
             Task.Run(LoadServicesAsync);
         }
+
+        // The methods are used to perform the operations in the UI.
         private async void ShowEmployeeDetailsPopup(int employeeId)
         {
             try
             {
-                // Fetch employee details using the service
                 EmployeeDTO employee = await _employeeService.GetEmployeeById(employeeId);
 
                 // Set the SelectedEmployee for data binding in the popup
@@ -348,7 +405,6 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 {
                     BindingContext = this
                 };
-
                 Application.Current?.MainPage?.ShowPopup(Popup);
             }
             catch (Exception ex)
@@ -356,7 +412,8 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 Console.WriteLine($"Error showing employee details popup: {ex.Message}");
             }
         }
-        // private async Task G
+
+        // The LoadEmployeesAsync method is used to fetch the employees from the API.
         private async Task LoadEmployeesAsync()
         {
             try
@@ -366,16 +423,13 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 // Update ObservableCollection
                 PagedFilteredEmployees.Clear();
                 PagedFilteredEmployees = new ObservableCollection<EmployeeDTO>(employees);
-                if (employees.Count == 0)
-                {
-                    Console.WriteLine("No employees found");
-                    return;
-                }
-                foreach (var employee in employees)
-                {
-                    PagedFilteredEmployees.Add(employee);
-                }
+                if (employees.Count != 0)
+                    foreach (var employee in employees)
+                    {
+                        PagedFilteredEmployees.Add(employee);
+                    }
 
+                // Calculate the total number of pages
                 var totalCount = await _employeeService.GetTotalEmployeeCount();
                 TotalPages = (int)Math.Ceiling((double)totalCount / PageSize);
             }
@@ -443,7 +497,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 EmployeeDTO employee = await _employeeService.GetEmployeeById(employeeId);
 
                 // Map the fetched EmployeeDTO to CreateEmployeeDTO
-                SelectedEmployeeForModification = new CreateEmployeeDTO // Map the EmployeeDTO to CreateEmployeeDTO
+                SelectedEmployeeForModification = new ModifyEmployeeDTO // Map the EmployeeDTO to CreateEmployeeDTO
                 {
                     Id = employee.Id,
                     Nom = employee.Nom,
@@ -477,7 +531,6 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 Console.WriteLine($"Error opening Modify Popup: {ex.Message}");
             }
         }
-
         private async Task LoadServicesAsync()
         {
             try
@@ -495,33 +548,32 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             try
             {
                 // Convert SelectedSite and SelectedService to their respective IDs
-                int? siteId = SelectedSite?.Id;
-                int? serviceId = SelectedService?.Id;
+                int? siteId = SelectedSite?.Id == 0 ? null : SelectedSite?.Id;
+                int? serviceId = SelectedService?.Id == 0 ? null : SelectedService?.Id;
 
-                // Create a new SearchEmployeeDTO object
+                // Create a new SearchEmployeeDTO object with the search criteria
                 var searchEmployeeDTO = new SearchEmployeeDTO
                 {
                     Nom = SearchNom ?? null,
                     Prenom = SearchPrenom ?? null,
                     Email = SearchEmail ?? null,
                     Telephone = SearchTelephone ?? null,
-                    SiteId = siteId ?? null,
-                    ServiceId = serviceId ?? null,
+                    SiteId = siteId,
+                    ServiceId = serviceId,
                     Page = CurrentPage,
                     PageSize = PageSize
                 };
 
                 // Send the search request to the API
                 var employees = await _employeeService.SearchEmployeeByArg(searchEmployeeDTO);
-
                 if (employees?.Count == 0)
                 {
-                    Console.WriteLine("No employees found.");
                     Application.Current?.MainPage?.DisplayAlert("Aucun employé trouvé", "Aucun employé trouvé avec les critères de recherche spécifiés.", "OK");
                     return;
                 }
+
+                // Update the filtered employee list
                 if (employees != null)
-                    // Update the filtered employee list
                     PagedFilteredEmployees = new ObservableCollection<EmployeeDTO>(employees);
                 IsSearchActive = true;
 
@@ -538,6 +590,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         {
             try
             {
+                // Validate the input
                 if (SelectedSiteForModification == null || string.IsNullOrWhiteSpace(ModifiedSiteName))
                 {
                     Console.WriteLine("Invalid input. Please select a site and enter a new name.");
@@ -545,14 +598,13 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                     return;
                 }
 
-                // Update the site
+                // Update the site name
                 SelectedSiteForModification.Ville = ModifiedSiteName;
 
                 var isUpdated = await _siteService.UpdateSite(SelectedSiteForModification);
 
                 if (isUpdated)
                 {
-                    Console.WriteLine($"Site {SelectedSiteForModification.Id} updated successfully.");
                     await LoadSitesAsync(); // Refresh the sites list
                     ModifiedSiteName = string.Empty; // Clear the input field
                     Popup?.Close();
@@ -572,10 +624,10 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         }
         private async Task RemoveSiteIfPossible(int siteId)
         {
+            //  It checks if the site is used by any employee before deleting it.
             var res = await _siteService.DeleteSite(siteId);
             if (res)
             {
-                Console.WriteLine($"Site with ID {siteId} deleted successfully.");
                 await LoadSitesAsync();
                 await Task.CompletedTask;
             }
@@ -587,33 +639,28 @@ namespace AnnuaireEntreprise.Maui.ViewModels
 
         private async Task<bool> RemoveEmployeeIfPossible()
         {
-            if (SelectedEmployeeForModification == null)
-            {
-                Console.WriteLine("SelectedEmployeeForModification is null.");
-                return false;
-            }
-
+            // Display a confirmation dialog before deleting the employee
             var confirmDelete = await (Application.Current?.MainPage?.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer cet employé ?", "Oui", "Non") ?? Task.FromResult(false));
-            if (confirmDelete)
+            if (confirmDelete == true && SelectedEmployeeForModification != null)
             {
                 var res = await _employeeService.DeleteEmployee(SelectedEmployeeForModification.Id);
                 if (res)
                 {
                     Popup?.Close();
                     await LoadEmployeesAsync();
-
+                    // Display a success message
+                    Application.Current?.MainPage?.DisplayAlert("Succès", "Employé supprimé avec succès.", "OK");
                     return true;
                 }
             }
             return false;
         }
-
-        private async Task ClearSearchAsync()
+        private async Task ClearSearchAsync() // Clear the search criteria and reload the default employee list
         {
             IsSearchActive = false;
             await LoadEmployeesAsync(); // Reload the default employee list
         }
-        private async Task GoToPreviousPage()
+        private async Task GoToPreviousPage() // Navigate to the previous page
         {
             if (CurrentPage > 1)
             {
@@ -621,42 +668,40 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 await LoadEmployeesAsync();
             }
         }
-        private async Task GoToNextPage()
+        private async Task GoToNextPage() // Navigate to the next page
         {
             if (CurrentPage < TotalPages)
             {
-                try
-                {
-                    await LoadEmployeesAsync();
-                }
-                finally
-                {
-                    CurrentPage++;
-                }
+
+                await LoadEmployeesAsync();
+
+                CurrentPage++;
+
             }
         }
-        private void UpdateCommandStates()
+        private void UpdateCommandStates() // Update the state of the PreviousPageCommand and NextPageCommand
         {
             ((Command)PreviousPageCommand).ChangeCanExecute();
             ((Command)NextPageCommand).ChangeCanExecute();
         }
+
         private async Task AddSiteAsync()
         {
             if (string.IsNullOrWhiteSpace(NewSiteName))
             {
-                Console.WriteLine("Site name cannot be empty.");
+                Application.Current?.MainPage?.DisplayAlert("Erreur", "Le nom du site ne peut pas être vide.", "OK");
                 return; // Stop execution if the input is invalid
             }
             try
             {
+                // Send the request to the API
                 var site = new SiteDTO
                 {
                     Ville = NewSiteName
                 };
-
+                // Add the site
                 await _siteService.AddSite(site);
-                Console.WriteLine($"Site '{NewSiteName}' added successfully.");
-
+                Application.Current?.MainPage?.DisplayAlert("Succès", $"Site '{NewSiteName}' ajouté avec succès.", "OK");
                 NewSiteName = string.Empty; // Clear the input field
                 await LoadSitesAsync(); // Refresh the site list
             }
@@ -669,18 +714,20 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         {
             try
             {
+                // Set the SiteId and ServiceId for the NewEmployee
+                NewEmployee.SiteId = SelectedSite?.Id ?? 0;
+                NewEmployee.ServiceId = SelectedService?.Id ?? 0;
                 // Validate the form inputs
-                if (string.IsNullOrWhiteSpace(NewEmployee.Nom) ||
+                if (
+                    string.IsNullOrWhiteSpace(NewEmployee.Nom) ||
                     string.IsNullOrWhiteSpace(NewEmployee.Prenom) ||
                     string.IsNullOrWhiteSpace(NewEmployee.Email) ||
                     string.IsNullOrWhiteSpace(NewEmployee.TelephonePortable) ||
                     NewEmployee.SiteId == 0 ||
                     NewEmployee.ServiceId == 0)
                 {
-                    Console.WriteLine("Invalid input. Please fill all required fields.");
                     // Alert 
                     Application.Current?.MainPage?.DisplayAlert("Erreur", "Les données saisies sont invalides. Veuillez remplir tous les champs requis.", "OK");
-                    Popup?.Close();
                     return;
                 }
 
@@ -701,6 +748,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                     };
                     SelectedService = null;
                     SelectedSite = null;
+                    Application.Current?.MainPage?.DisplayAlert("Succès", "Employé ajouté avec succès.", "OK");
                     Popup?.Close();
                     // Refresh the employee list
                     await LoadEmployeesAsync();
@@ -721,25 +769,17 @@ namespace AnnuaireEntreprise.Maui.ViewModels
         {
             try
             {
-
                 if (SelectedEmployeeForModification != null)
                 {
                     // Send the request to the API
                     var updatedEmployee = await _employeeService.UpdateEmployee(SelectedEmployeeForModification);
 
-                    if (updatedEmployee)
+                    if (updatedEmployee == true)
                     {
-                        Console.WriteLine("Employee updated successfully.");
-
-                        // Refresh the employee list
+                        Application.Current?.MainPage?.DisplayAlert("Succès", "Les modifications ont été enregistrées avec succès.", "OK");
+                        // Refresh the employee list and close the popup
                         await LoadEmployeesAsync();
-
-                        // Close the popup
                         Popup?.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed to update employee.");
                     }
                 }
             }
@@ -748,25 +788,18 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 Console.WriteLine($"Error updating employee: {ex.Message}");
             }
         }
-
         private async Task AddServiceAsync()
         {
-            if (string.IsNullOrWhiteSpace(NewServiceName))
-            {
-                Console.WriteLine("Service name cannot be empty.");
-                return; // Stop execution if the input is invalid
-            }
-
             try
             {
+                // Validate the input
                 var service = new ServiceDTO
                 {
                     Nom = NewServiceName
                 };
 
                 await _serviceService.AddService(service);
-                Console.WriteLine($"Service '{NewServiceName}' added successfully.");
-
+                Application.Current?.MainPage?.DisplayAlert("Succès", $"Service '{NewServiceName}' ajouté avec succès.", "OK");
                 NewServiceName = string.Empty; // Clear the input field
                 await LoadServicesAsync(); // Refresh the service list
             }
@@ -776,6 +809,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
             }
         }
 
+        // The RemoveServiceIfPossible method is used to remove a service if it is not used by any employee.
         private async Task RemoveServiceIfPossible(int serviceId)
         {
             var res = await _serviceService.RemoveService(serviceId);
@@ -789,11 +823,13 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 Application.Current?.MainPage?.DisplayAlert("Erreur", "Le service ne peut pas être supprimé car il est utilisé", "OK");
             }
         }
+
+        // The OnTitleClicked method is used to activate the admin mode.
         private async void OnTitleClicked()
         {
             _titleClickCount++;
-
-            if (_titleClickCount == SecretKeyTapThreshold)
+            // Check if the user has tapped the title 11 times
+            if (_titleClickCount == SecretKeyTapThreshold && !IsAdmin && Application.Current?.MainPage != null)
             {
                 _titleClickCount = 0; // Reset the click count
                 string password = await Application.Current.MainPage.DisplayPromptAsync(
@@ -804,7 +840,7 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                     placeholder: "Password",
                     maxLength: 20,
                     keyboard: Keyboard.Text);
-
+                // Check if the entered password is correct
                 if (password == AdminPassword)
                 {
                     IsAdmin = true;
@@ -816,7 +852,5 @@ namespace AnnuaireEntreprise.Maui.ViewModels
                 }
             }
         }
-
     }
-
 }

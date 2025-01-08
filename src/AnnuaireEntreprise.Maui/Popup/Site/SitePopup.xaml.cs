@@ -4,12 +4,10 @@ namespace AnnuaireEntreprise.Maui.Views;
 
 public partial class SitePopup : Popup
 {
+    // Constructor
     public SitePopup()
     {
         InitializeComponent();
     }
-    public void OnClose(object sender, EventArgs e)
-    {
-        Close();
-    }
+
 }

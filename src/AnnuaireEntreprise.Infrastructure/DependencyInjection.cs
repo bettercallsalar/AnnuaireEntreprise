@@ -6,6 +6,7 @@ namespace AnnuaireEntreprise.Infrastructure;
 
 public static class DependencyInjection
 {
+
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
                 services.AddSingleton(configuration); // Charger la configuration dans DI
@@ -15,18 +16,4 @@ public static class DependencyInjection
                 services.AddScoped<IEmployeeRepository, EmployeeRepository>();
                 return services;
         }
-
-
-        // public static IConfiguration AddConfiguration()
-        // {
-        //         var currentDirectory = Directory.GetCurrentDirectory();
-
-        //         var infrastructureConfigPath = Path.Combine(currentDirectory, "../AnnuaireEntreprise.Infrastructure/appsettings.json");
-
-        //         return new ConfigurationBuilder()
-        //             .SetBasePath(currentDirectory)
-        //             .AddJsonFile(infrastructureConfigPath, optional: false, reloadOnChange: true)
-        //             .Build();
-        // }
-
 }

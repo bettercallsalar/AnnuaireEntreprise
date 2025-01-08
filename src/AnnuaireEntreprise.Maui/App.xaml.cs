@@ -6,6 +6,7 @@ public partial class App : Application
 	{
 		InitializeComponent();
 		Console.WriteLine("Application starting.");
+		// The root page 
 		MainPage = new NavigationPage(new MainPage());
 	}
 }

@@ -4,6 +4,7 @@ using AnnuaireEntreprise.Model.Models;
 
 namespace AnnuaireEntreprise.Infrastructure
 {
+    // Interface for Service Repository
     public interface IServiceRepository
     {
         Task<List<ServiceDTO>> FetchAllServices();

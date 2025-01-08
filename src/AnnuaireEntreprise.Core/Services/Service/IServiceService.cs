@@ -3,6 +3,7 @@
 using AnnuaireEntreprise.Model.Models;
 namespace AnnuaireEntreprise.Core
 {
+    // Interface for ServiceService. The methods are implemented in ServiceService.cs
     public interface IServiceService
     {
         Task<List<ServiceDTO>> GetAllServices();

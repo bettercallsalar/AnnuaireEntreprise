@@ -4,6 +4,7 @@ using AnnuaireEntreprise.Model.Models;
 
 namespace AnnuaireEntreprise.Maui.Services.Site
 {
+    // Interface for Site Service
     public interface ISiteService
     {
         Task<List<SiteDTO>> GetAllSites();

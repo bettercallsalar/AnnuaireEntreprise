@@ -1,10 +1,11 @@
+// Author: Salar
+// Created: 06/01/2025
 using System.ComponentModel.DataAnnotations;
 
 namespace AnnuaireEntreprise.Model.Models
 {
     public class CreateEmployeeDTO
     {
-        public int Id { get; set; }
 
         [Required, MinLength(2)]
         public required string Nom { get; set; }

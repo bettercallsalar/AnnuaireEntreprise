@@ -5,14 +5,18 @@ using AnnuaireEntreprise.Maui.Services;
 
 namespace AnnuaireEntreprise.Maui.Services.Site
 {
+    // Interface for Site Service
     public class SiteService : ISiteService
     {
         private readonly ApiService _apiService;
+
+
         public SiteService()
         {
             _apiService = new ApiService();
         }
 
+        // Fetch All Sites from API
         public async Task<List<SiteDTO>> GetAllSites()
         {
             try
@@ -27,6 +31,7 @@ namespace AnnuaireEntreprise.Maui.Services.Site
             }
         }
 
+        // Fetch Site by Id
         public async Task<SiteDTO> GetSiteById(int id)
         {
             try
@@ -54,6 +59,7 @@ namespace AnnuaireEntreprise.Maui.Services.Site
             }
         }
 
+        // Add Site
         public async Task<SiteDTO> AddSite(SiteDTO site)
         {
             try
@@ -79,6 +85,7 @@ namespace AnnuaireEntreprise.Maui.Services.Site
             }
         }
 
+        // Update Site
         public async Task<bool> UpdateSite(SiteDTO site)
         {
             try
@@ -93,6 +100,7 @@ namespace AnnuaireEntreprise.Maui.Services.Site
             }
         }
 
+        // Delete Site
         public async Task<bool> DeleteSite(int id)
         {
             try

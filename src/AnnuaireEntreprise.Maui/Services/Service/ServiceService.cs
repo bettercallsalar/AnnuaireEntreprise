@@ -7,12 +7,15 @@ namespace AnnuaireEntreprise.Maui.Services.Service
 {
     public class ServiceService : IServiceService
     {
+        // Service to call API
         private readonly ApiService _apiService;
+
         public ServiceService()
         {
             _apiService = new ApiService();
         }
 
+        // Fetch All Services from API
         public async Task<List<ServiceDTO>> GetAllServices()
         {
             try
@@ -26,7 +29,7 @@ namespace AnnuaireEntreprise.Maui.Services.Service
                 return new List<ServiceDTO>();
             }
         }
-
+        // Fetch Service by Id
         public async Task<ServiceDTO> GetServiceById(int id)
         {
             try
@@ -54,6 +57,7 @@ namespace AnnuaireEntreprise.Maui.Services.Service
             }
         }
 
+        // Add Service  
         public async Task<ServiceDTO> AddService(ServiceDTO service)
         {
             try
@@ -78,6 +82,7 @@ namespace AnnuaireEntreprise.Maui.Services.Service
             }
         }
 
+        // Modify Service
         public async Task<bool> ModifyService(ServiceDTO service)
         {
             try
@@ -91,6 +96,7 @@ namespace AnnuaireEntreprise.Maui.Services.Service
             }
         }
 
+        // Remove Service
         public async Task<bool> RemoveService(int id)
         {
             try

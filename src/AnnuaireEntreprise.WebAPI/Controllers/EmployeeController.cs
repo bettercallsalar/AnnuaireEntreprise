@@ -93,7 +93,7 @@ namespace WebAPI
         /// <returns></returns>
         ///    
         [HttpPut("update-employee")]
-        public async Task<IActionResult> UpdateEmployee([FromBody] CreateEmployeeDTO employee)
+        public async Task<IActionResult> UpdateEmployee([FromBody] ModifyEmployeeDTO employee)
         {
             var result = await _employeeService.UpdateEmployee(employee);
             if (result)

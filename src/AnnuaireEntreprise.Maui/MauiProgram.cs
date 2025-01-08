@@ -3,10 +3,12 @@ using CommunityToolkit.Maui;
 
 namespace AnnuaireEntreprise.Maui;
 
+// Entry point for the application.
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
+		// Create a new MauiApp.
 		var builder = MauiApp.CreateBuilder();
 		builder.UseMauiCommunityToolkit();
 		builder

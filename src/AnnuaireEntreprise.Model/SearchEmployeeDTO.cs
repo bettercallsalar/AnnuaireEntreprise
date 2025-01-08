@@ -16,6 +16,6 @@ namespace AnnuaireEntreprise.Model.Models
         public int? SiteId { get; set; } = null;
         public int? ServiceId { get; set; } = null;
         public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 45;
+        public int PageSize { get; set; } = 50;
     }
 }

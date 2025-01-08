@@ -4,12 +4,13 @@ using AnnuaireEntreprise.Model.Models;
 
 namespace AnnuaireEntreprise.Infrastructure
 {
+    // Interface for EmployeeRepository. The methods are implemented in EmployeeRepository.cs
     public interface IEmployeeRepository
     {
         Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize);
         Task<EmployeeDTO> GetEmployeeById(int id);
-        Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
-        Task<bool> UpdateEmployee(CreateEmployeeDTO employee);
+        Task<EmployeeDTO> AddEmployee(CreateEmployeeDTO employee);
+        Task<bool> UpdateEmployee(ModifyEmployeeDTO employee);
         Task<bool> DeleteEmployee(int id);
 
         // methods chercher par nom, prenom, email, telephone, site, service

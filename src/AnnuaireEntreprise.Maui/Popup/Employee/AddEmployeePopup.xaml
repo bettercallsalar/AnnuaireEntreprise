@@ -71,6 +71,15 @@
                                    FontSize="12"
                                    TextColor="#F44336"/>
 
+                            <!-- Telephone Fixe Entry -->
+                            <Entry Placeholder="Telephone Fixe"
+                                   Text="{Binding NewEmployee.TelephoneFixe}"
+                                   FontSize="16"
+                                   TextColor="#E0E0E0"
+                                   PlaceholderColor="#757575"
+                                   BackgroundColor="#2A2A2A"
+                                   Keyboard="Telephone"
+                                   HeightRequest="50"/>
 
                             <!-- Pickers -->
                             <Grid ColumnDefinitions="*,*"

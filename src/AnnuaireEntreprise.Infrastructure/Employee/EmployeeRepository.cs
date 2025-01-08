@@ -7,10 +7,13 @@ using System.Text;
 
 namespace AnnuaireEntreprise.Infrastructure
 {
+    // Repository for Employee. The methods are implemented in EmployeeRepository.cs
     public partial class EmployeeRepository(MySqlConnector connector) : IEmployeeRepository
     {
+        // Connector to connect to the database
         private readonly MySqlConnector _connector = connector;
 
+        // Method to get all employees. Includes joins with Sites and Services
         public async Task<List<EmployeeDTO>> GetAllEmployees(int page, int pageSize)
         {
             using var connection = _connector.GetConnection();
@@ -19,20 +22,23 @@ namespace AnnuaireEntreprise.Infrastructure
 
             // SQL query to join Employees with Sites and Services
             command.CommandText = @"
-        SELECT e.Id, e.Nom, e.Prenom, e.Email, e.TelephoneFixe, e.TelephonePortable, 
-               s.Id AS SiteId, s.Ville AS SiteName, 
-               srv.Id AS ServiceId, srv.Nom AS ServiceName
-        FROM Employees e
-        LEFT JOIN Sites s ON e.SiteId = s.Id
-        LEFT JOIN Services srv ON e.ServiceId = srv.Id
-        ORDER BY e.Id
-        LIMIT @PageSize OFFSET @Offset";
+            SELECT e.Id, e.Nom, e.Prenom, e.Email, e.TelephoneFixe, e.TelephonePortable, 
+                s.Id AS SiteId, s.Ville AS SiteName, 
+                srv.Id AS ServiceId, srv.Nom AS ServiceName
+            FROM Employees e
+            LEFT JOIN Sites s ON e.SiteId = s.Id
+            LEFT JOIN Services srv ON e.ServiceId = srv.Id
+            ORDER BY e.Id
+            LIMIT @PageSize OFFSET @Offset";
 
+            // Parameters for pagination
             command.Parameters.AddWithValue("@PageSize", pageSize);
             command.Parameters.AddWithValue("@Offset", (page - 1) * pageSize);
 
             using var reader = await command.ExecuteReaderAsync();
-            var employees = new List<EmployeeDTO>();
+            var employees = new List<EmployeeDTO>(); // List to store the employees
+
+            // Reading the data from the reader as EmployeeDTO
             while (await reader.ReadAsync())
             {
                 employees.Add(new EmployeeDTO
@@ -57,10 +63,10 @@ namespace AnnuaireEntreprise.Infrastructure
                     }
                 });
             }
-
             return employees;
         }
 
+        // Method to get employee by id. Includes joins with Sites and Services
         public async Task<EmployeeDTO> GetEmployeeById(int id)
         {
             using var connection = _connector.GetConnection();
@@ -69,12 +75,12 @@ namespace AnnuaireEntreprise.Infrastructure
 
             // Query to include Site and Service joins
             command.CommandText = @"
-        SELECT e.*, s.Id AS SiteId, s.Ville AS SiteName, 
-               srv.Id AS ServiceId, srv.Nom AS ServiceName
-        FROM Employees e
-        LEFT JOIN Sites s ON e.SiteId = s.Id
-        LEFT JOIN Services srv ON e.ServiceId = srv.Id
-        WHERE e.Id = @id";
+            SELECT e.*, s.Id AS SiteId, s.Ville AS SiteName, 
+                srv.Id AS ServiceId, srv.Nom AS ServiceName
+            FROM Employees e
+            LEFT JOIN Sites s ON e.SiteId = s.Id
+            LEFT JOIN Services srv ON e.ServiceId = srv.Id
+            WHERE e.Id = @id";
 
             command.Parameters.AddWithValue("@id", id);
 
@@ -103,7 +109,7 @@ namespace AnnuaireEntreprise.Infrastructure
                     }
                 };
             }
-
+            // Return empty EmployeeDTO if no data is found
             return null ?? new EmployeeDTO
             {
                 Nom = string.Empty,
@@ -123,8 +129,8 @@ namespace AnnuaireEntreprise.Infrastructure
             };
         }
 
-
-        public async Task<CreateEmployeeDTO> AddEmployee(CreateEmployeeDTO employee)
+        // Method to add employee
+        public async Task<EmployeeDTO> AddEmployee(CreateEmployeeDTO employee)
         {
             using var connection = _connector.GetConnection();
             await connection.OpenAsync();
@@ -144,12 +150,12 @@ namespace AnnuaireEntreprise.Infrastructure
             command.Parameters.AddWithValue("@serviceId", employee.ServiceId);
 
             var newId = Convert.ToInt32(await command.ExecuteScalarAsync());
-            employee.Id = newId;
-            return employee;
+            EmployeeDTO savedEmployee = await GetEmployeeById(newId);
+            return savedEmployee;
         }
 
-
-        public async Task<bool> UpdateEmployee(CreateEmployeeDTO employee)
+        // Method to update employee
+        public async Task<bool> UpdateEmployee(ModifyEmployeeDTO employee)
         {
             using var connection = _connector.GetConnection();
             await connection.OpenAsync();
@@ -174,7 +180,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return await command.ExecuteNonQueryAsync() > 0;
         }
 
-
+        // Method to delete employee
         public async Task<bool> DeleteEmployee(int id)
         {
             using var connection = _connector.GetConnection();
@@ -185,7 +191,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return await command.ExecuteNonQueryAsync() > 0;
         }
 
-
+        // Method to search employees by arguments
         public async Task<List<EmployeeDTO>> FetchEmployeesByArg(
             SearchEmployeeDTO searchEmployeeDTO)
         {
@@ -193,6 +199,7 @@ namespace AnnuaireEntreprise.Infrastructure
             await connection.OpenAsync();
             using var command = connection.CreateCommand();
 
+            // Query to join Employees with Sites and Services
             var query = new StringBuilder(@"
                 SELECT e.*, s.Id AS SiteId, s.Ville AS SiteName, 
                     srv.Id AS ServiceId, srv.Nom AS ServiceName
@@ -201,6 +208,7 @@ namespace AnnuaireEntreprise.Infrastructure
                 LEFT JOIN Services srv ON e.ServiceId = srv.Id
                 WHERE 1=1 ");
 
+            // Creating the query based on the searchEmployeeDTO
             if (!string.IsNullOrWhiteSpace(searchEmployeeDTO.Nom))
             {
                 query.Append("AND e.Nom LIKE @nom ");
@@ -232,17 +240,19 @@ namespace AnnuaireEntreprise.Infrastructure
                 command.Parameters.AddWithValue("@serviceId", searchEmployeeDTO.ServiceId.Value);
             }
 
-
+            // Adding pagination to the query
             query.Append("ORDER BY e.Id LIMIT @PageSize OFFSET @Offset");
             command.Parameters.AddWithValue("@PageSize", searchEmployeeDTO.PageSize);
             command.Parameters.AddWithValue("@Offset", (searchEmployeeDTO.Page - 1) * searchEmployeeDTO.PageSize);
 
             command.CommandText = query.ToString();
 
+            // Reading the data from the reader as EmployeeDTO
             using var reader = await command.ExecuteReaderAsync();
             var employees = new List<EmployeeDTO>();
             while (await reader.ReadAsync())
             {
+                // Adding the employee to the list
                 employees.Add(new EmployeeDTO
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
@@ -269,6 +279,7 @@ namespace AnnuaireEntreprise.Infrastructure
             return employees;
         }
 
+        // Method to fetch total employee count. Used for pagination
         public async Task<int> FetchTotalEmployeeCount()
         {
             using var connection = _connector.GetConnection();

@@ -5,12 +5,10 @@ namespace AnnuaireEntreprise.Maui.Views;
 
 public partial class ShowEmployeePopup : Popup
 {
+    // Constructor
     public ShowEmployeePopup()
     {
         InitializeComponent();
     }
-    public void OnClose(object sender, EventArgs e)
-    {
-        Close();
-    }
+
 }

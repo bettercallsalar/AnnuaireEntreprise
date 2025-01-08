@@ -94,22 +94,24 @@
                                   RowDefinitions="Auto">
                                    <Picker Grid.Column="0"
                                            Title="Site"
-                                           ItemsSource="{Binding Sites}"
+                                           ItemsSource="{Binding SitesWithPlaceholder}"
                                            SelectedItem="{Binding SelectedSite}"
                                            ItemDisplayBinding="{Binding Ville}"
                                            TextColor="#FFFFFF"
                                            BackgroundColor="#1D1D1D"
                                            FontSize="16"
                                            Margin="0,5"/>
+
                                    <Picker Grid.Column="1"
                                            Title="Service"
-                                           ItemsSource="{Binding Services}"
+                                           ItemsSource="{Binding ServicesWithPlaceholder}"
                                            SelectedItem="{Binding SelectedService}"
                                            ItemDisplayBinding="{Binding Nom}"
                                            TextColor="#FFFFFF"
                                            BackgroundColor="#1D1D1D"
                                            FontSize="16"
                                            Margin="0,5"/>
+
                             </Grid>
                      </VerticalStackLayout>
 

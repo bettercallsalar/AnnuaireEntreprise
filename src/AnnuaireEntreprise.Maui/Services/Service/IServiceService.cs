@@ -4,6 +4,7 @@ using AnnuaireEntreprise.Model.Models;
 
 namespace AnnuaireEntreprise.Maui.Services.Service
 {
+    // Interface for Service Service
     public interface IServiceService
     {
         Task<List<ServiceDTO>> GetAllServices();

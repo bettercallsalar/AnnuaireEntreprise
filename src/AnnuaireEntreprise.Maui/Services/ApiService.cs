@@ -1,15 +1,13 @@
-using System.Net.Http;
+
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using AnnuaireEntreprise.Model.Models;
+
 
 namespace AnnuaireEntreprise.Maui.Services
 {
     public class ApiService
     {
         private readonly HttpClient _httpClient;
-        private string? _authToken;
 
         private static readonly JsonSerializerOptions _jsonOptions = new()
         {
@@ -19,34 +17,29 @@ namespace AnnuaireEntreprise.Maui.Services
 
         public ApiService()
         {
+            // Create HttpClient
             var httpClientHandler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true // Development only
             };
 
-            _httpClient = new HttpClient(httpClientHandler)
+            _httpClient = new HttpClient(httpClientHandler);
+
+            if (DeviceInfo.Platform == DevicePlatform.Android)
             {
-                //BaseAddress = new Uri("https://10.0.2.2:7004/api/"), // For Android Emulator
-                 BaseAddress = new Uri("https://localhost:7004/api/"), // For Windows Emulator
-
-                Timeout = TimeSpan.FromSeconds(30)
-            };
+                _httpClient.BaseAddress = new Uri("https://10.0.2.2:7004/api/"); // For Android Emulator
+            }
+            else
+            {
+                _httpClient.BaseAddress = new Uri("https://localhost:7004/api/"); // For Windows Emulator
+            }
         }
 
-        public void SetAuthToken(string? token)
-        {
-            _authToken = token;
-        }
 
         private async Task<HttpResponseMessage> SendRequestAsync<T>(HttpMethod method, string endpoint, T? data)
         {
+            // Create Request
             var request = new HttpRequestMessage(method, endpoint);
-
-            // Add Authorization Header
-            if (!string.IsNullOrEmpty(_authToken))
-            {
-                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _authToken);
-            }
 
             // Add JSON Content
             if (data != null)
@@ -82,6 +75,7 @@ namespace AnnuaireEntreprise.Maui.Services
             return default;
         }
 
+        // Post request. TRequest is the request data type, TResponse is the response data type
         public async Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data)
         {
             var response = await SendRequestAsync(HttpMethod.Post, endpoint, data);
@@ -96,12 +90,14 @@ namespace AnnuaireEntreprise.Maui.Services
             return default;
         }
 
+        // Post request. T is the request data type
         public async Task<bool> PutAsync<T>(string endpoint, T data)
         {
             var response = await SendRequestAsync(HttpMethod.Put, endpoint, data);
             return response.IsSuccessStatusCode;
         }
 
+        // Delete request
         public async Task<bool> DeleteAsync(string endpoint)
         {
             var response = await SendRequestAsync<object>(HttpMethod.Delete, endpoint, null);
